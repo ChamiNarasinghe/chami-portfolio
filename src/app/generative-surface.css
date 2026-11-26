@@ -1,0 +1,167 @@
+
+/* =========================================
+   PHASE 03I.1
+   GENERATIVE MATHEMATICAL SURFACE
+   ========================================= */
+
+.generative-surface {
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 68%;
+  height: 85%;
+
+  z-index: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  opacity: 0.85;
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 45%,
+    rgba(0, 0, 0, 0.65) 70%,
+    transparent 100%
+  );
+
+  mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 45%,
+    rgba(0, 0, 0, 0.65) 70%,
+    transparent 100%
+  );
+}
+
+.generative-surface canvas {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+}
+
+/* Preserve existing hero content layering */
+
+.hero-section .hero-container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-section .hero-scroll-link {
+  z-index: 1;
+}
+
+/* =========================================
+   LARGE DESKTOP
+   ========================================= */
+
+@media (min-width: 1600px) {
+  .generative-surface {
+    width: 70%;
+    height: 90%;
+  }
+}
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (min-width: 600px)
+  and (max-width: 899px) {
+
+  .generative-surface {
+    width: 100%;
+    height: 55%;
+
+    opacity: 0.5;
+
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 35%,
+      #000 75%,
+      transparent
+    );
+
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 35%,
+      #000 75%,
+      transparent
+    );
+  }
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 599px) {
+  .generative-surface {
+    width: 100%;
+    height: 48%;
+
+    opacity: 0.4;
+
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 40%,
+      #000 80%,
+      transparent
+    );
+
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 40%,
+      #000 80%,
+      transparent
+    );
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .generative-surface {
+    opacity: 0.25;
+  }
+}
+
+/* Premium mathematical surface refinement */
+
+@media (min-width: 900px) {
+  .generative-surface {
+    width: 75%;
+    height: 72%;
+    opacity: 0.85;
+
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 20%,
+      #000 55%,
+      transparent 100%
+    );
+  }
+}
+
+@media (max-width: 899px) {
+  .generative-surface {
+    width: 100%;
+    height: 40%;
+    bottom: 0;
+    opacity: 0.45;
+  }
+}
