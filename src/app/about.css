@@ -1,0 +1,1127 @@
+
+/* =========================================
+   PHASE 04.4
+   LUXURY EDITORIAL × INTELLIGENT ENGINEERING
+   ========================================= */
+
+.about-section {
+  --about-burgundy: #5b0e14;
+  --about-gold: #f1e194;
+  --about-ivory: #f8f6f0;
+  --about-muted: #685d50;
+  --about-border: rgba(151, 119, 63, 0.24);
+  --about-dark: #171513;
+
+  position: relative;
+  isolation: isolate;
+
+  margin: 0;
+  padding-block: 42px 65px;
+
+  color: var(--about-dark);
+
+  background:
+    radial-gradient(
+      ellipse at 0% 5%,
+      rgba(241, 225, 148, 0.55),
+      transparent 48%
+    ),
+    radial-gradient(
+      ellipse at 100% 100%,
+      rgba(241, 225, 148, 0.45),
+      transparent 50%
+    ),
+    linear-gradient(
+      125deg,
+      #f4e9c6 0%,
+      #f8f6f0 48%,
+      #f5ecd0 100%
+    );
+
+  scroll-margin-top: 100px;
+  overflow: hidden;
+}
+
+.about-section > .site-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Golden transition from hero */
+
+.about-section::before {
+  content: "";
+
+  position: absolute;
+  inset: 0 0 auto;
+
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    #b49b68,
+    #f1e194,
+    #b49b68
+  );
+
+  pointer-events: none;
+}
+
+/* Soft architectural lighting */
+
+.about-section::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: -1;
+
+  background: repeating-linear-gradient(
+    125deg,
+    transparent 0,
+    transparent 140px,
+    rgba(141, 108, 57, 0.025) 155px,
+    rgba(141, 108, 57, 0.035) 190px,
+    transparent 220px
+  );
+
+  pointer-events: none;
+}
+
+/* Subtle engineering blueprint */
+
+.about-technical-texture {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  width: 40%;
+  height: 100%;
+
+  z-index: -1;
+
+  background-image:
+    linear-gradient(
+      rgba(91, 14, 20, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(91, 14, 20, 0.045) 1px,
+      transparent 1px
+    );
+
+  background-size: 32px 32px;
+
+  -webkit-mask-image: linear-gradient(
+    to left,
+    #000,
+    transparent
+  );
+
+  mask-image: linear-gradient(
+    to left,
+    #000,
+    transparent
+  );
+
+  pointer-events: none;
+}
+
+/* =========================================
+   SECTION HEADER
+   ========================================= */
+
+.about-section-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 15px;
+
+  padding-bottom: 18px;
+  margin-bottom: 34px;
+
+  border-bottom: 1px solid var(--about-border);
+}
+
+.about-section-index {
+  color: var(--about-burgundy);
+
+  font-size: 11px;
+  font-weight: 600;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.about-header-divider {
+  width: 1px;
+  height: 12px;
+
+  background: #b49b68;
+}
+
+.about-section-caption {
+  color: var(--about-muted);
+
+  font-size: 10px;
+  font-weight: 500;
+
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+/* =========================================
+   MAIN EDITORIAL GRID
+   ========================================= */
+
+.about-grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 0.85fr)
+    minmax(0, 1fr);
+
+  align-items: start;
+
+  gap: clamp(35px, 6vw, 95px);
+}
+
+.about-grid > * {
+  min-width: 0;
+}
+
+/* =========================================
+   STATIC PORTRAIT
+   ========================================= */
+
+.about-figure {
+  position: relative;
+  margin: 0;
+}
+
+.about-figure::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 9px -9px -9px 9px;
+
+  border: 1px solid
+    rgba(180, 155, 104, 0.65);
+
+  pointer-events: none;
+}
+
+.about-image-wrapper {
+  position: relative;
+
+  width: 100%;
+
+  aspect-ratio: 4 / 5.2;
+
+  overflow: hidden;
+
+  background: #e4ded5;
+}
+
+.about-image {
+  object-fit: cover;
+  object-position: center 28%;
+}
+
+/* =========================================
+   BIOGRAPHY
+   ========================================= */
+
+.about-content {
+  min-width: 0;
+  padding-top: 3px;
+}
+
+.about-eyebrow {
+  margin-bottom: 18px;
+
+  color: var(--about-muted);
+
+  font-size: 10px;
+  font-weight: 600;
+
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.about-heading {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 0 22px;
+
+  font-family:
+    var(--font-playfair),
+    Georgia,
+    serif;
+
+  font-size: clamp(36px, 4vw, 66px);
+  font-weight: 400;
+
+  line-height: 1.13;
+  letter-spacing: -0.045em;
+
+  color: var(--about-burgundy);
+}
+
+.about-heading em {
+  font-weight: 400;
+}
+
+.about-introduction {
+  margin-bottom: 18px;
+
+  color: var(--about-dark);
+
+  font-size: clamp(16px, 1.3vw, 19px);
+  font-weight: 500;
+
+  line-height: 1.7;
+}
+
+.about-description {
+  display: flex;
+  flex-direction: column;
+
+  gap: 13px;
+
+  color: var(--about-muted);
+
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* =========================================
+   PROFESSIONAL FOCUS
+   ========================================= */
+
+.about-focus {
+  margin-top: 24px;
+  padding-top: 18px;
+
+  border-top: 1px solid var(--about-border);
+}
+
+.about-focus-label {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: var(--about-muted);
+
+  font-size: 10px;
+  font-weight: 600;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.about-focus-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.about-focus-item {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+  padding: 9px 12px;
+
+  color: var(--about-burgundy);
+
+  background: rgba(241, 225, 148, 0.2);
+
+  border: 1px solid var(--about-border);
+  border-radius: 4px;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  transition:
+    background 250ms ease,
+    border-color 250ms ease;
+}
+
+.about-focus-item svg {
+  flex-shrink: 0;
+}
+
+@media (hover: hover) {
+  .about-focus-item:hover {
+    background: rgba(241, 225, 148, 0.55);
+    border-color: #b49b68;
+  }
+}
+
+/* =========================================
+   JOURNEY BUTTON
+   ========================================= */
+
+.about-journey-link {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 28px;
+
+  margin-top: 24px;
+  padding: 13px 19px;
+
+  color: var(--about-burgundy);
+
+  border: 1px solid var(--about-burgundy);
+  border-radius: 3px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition:
+    background 300ms ease,
+    color 300ms ease;
+}
+
+.about-journey-link svg {
+  transition: transform 300ms ease;
+}
+
+.about-journey-link:hover {
+  background: var(--about-burgundy);
+  color: var(--about-gold);
+}
+
+.about-journey-link:hover svg {
+  transform: translate(3px, -3px);
+}
+
+.about-journey-link:focus-visible,
+.workflow-stage:focus-visible {
+  outline: 2px solid var(--about-burgundy);
+  outline-offset: 4px;
+}
+
+/* =========================================
+   INTERACTIVE ENGINEERING WORKFLOW
+   ========================================= */
+
+.engineering-workflow {
+  margin-top: 42px;
+  padding: 24px 28px;
+
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.55),
+    rgba(241, 225, 148, 0.22)
+  );
+
+  border: 1px solid var(--about-border);
+  border-radius: 7px;
+}
+
+.workflow-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 22px;
+
+  color: var(--about-burgundy);
+
+  font-size: 11px;
+  font-weight: 600;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.workflow-stages {
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 8px;
+}
+
+.workflow-stage-group {
+  position: relative;
+  min-width: 0;
+}
+
+.workflow-stage {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  width: 100%;
+
+  gap: 9px;
+  padding: 6px;
+
+  background: transparent;
+  border: 0;
+
+  color: var(--about-muted);
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.workflow-stage-icon {
+  display: grid;
+  place-items: center;
+
+  width: 46px;
+  height: 46px;
+
+  background: rgba(241, 225, 148, 0.25);
+
+  border: 1px solid var(--about-border);
+  border-radius: 7px;
+
+  color: var(--about-burgundy);
+
+  transition:
+    background 300ms ease,
+    color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.workflow-stage-active {
+  color: var(--about-burgundy);
+  font-weight: 600;
+}
+
+.workflow-stage-active .workflow-stage-icon {
+  background: var(--about-burgundy);
+
+  color: var(--about-gold);
+
+  border-color: var(--about-burgundy);
+
+  box-shadow: 0 5px 15px rgba(91, 14, 20, 0.15);
+}
+
+.workflow-stage:hover .workflow-stage-icon {
+  border-color: var(--about-burgundy);
+}
+
+.workflow-connector {
+  position: absolute;
+
+  top: 23px;
+  right: -10px;
+
+  color: #b49b68;
+
+  pointer-events: none;
+}
+
+.workflow-description {
+  min-height: 75px;
+
+  margin-top: 20px;
+  padding-top: 17px;
+
+  border-top: 1px solid var(--about-border);
+}
+
+.workflow-active-label {
+  color: var(--about-burgundy);
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.workflow-description p {
+  margin-top: 5px;
+
+  color: var(--about-muted);
+
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* =========================================
+   ACADEMIC SECTION
+   ========================================= */
+
+.about-academic {
+  margin-top: 40px;
+  padding-top: 26px;
+
+  border-top: 1px solid var(--about-border);
+}
+
+.academic-header {
+  margin-bottom: 22px;
+}
+
+.academic-eyebrow {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: var(--about-muted);
+
+  font-size: 10px;
+  font-weight: 500;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.academic-header h3 {
+  margin: 0;
+
+  color: var(--about-burgundy);
+
+  font-family:
+    var(--font-playfair),
+    Georgia,
+    serif;
+
+  font-size: clamp(25px, 2.4vw, 36px);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+/* =========================================
+   COMPACT PROFESSIONAL CREDENTIALS
+   ========================================= */
+
+.academic-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+.academic-grid > * {
+  min-width: 0;
+  height: 100%;
+}
+
+.academic-card {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+
+  height: 100%;
+  padding: 22px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.65),
+    rgba(241, 225, 148, 0.28)
+  );
+
+  border: 1px solid var(--about-border);
+  border-radius: 6px;
+
+  overflow: hidden;
+
+  transition:
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    transform 300ms ease;
+}
+
+.academic-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0 0 auto;
+
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    #5b0e14,
+    #b49b68,
+    #f1e194
+  );
+
+  transform: scaleX(0);
+  transform-origin: left;
+
+  transition: transform 400ms ease;
+}
+
+@media (hover: hover) {
+  .academic-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #b49b68;
+
+    box-shadow: 0 10px 25px rgba(91, 14, 20, 0.06);
+  }
+
+  .academic-card:hover::before {
+    transform: scaleX(1);
+  }
+}
+
+.academic-icon {
+  display: grid;
+  place-items: center;
+
+  width: 44px;
+  height: 44px;
+
+  flex-shrink: 0;
+
+  background: var(--about-burgundy);
+  color: var(--about-gold);
+
+  border-radius: 6px;
+}
+
+.academic-information {
+  flex: 1;
+  min-width: 0;
+}
+
+.academic-title {
+  margin: 0;
+
+  color: var(--about-dark);
+
+  font-family:
+    var(--font-dm-sans),
+    sans-serif;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  line-height: 1.5;
+}
+
+.academic-programme {
+  margin-top: 3px;
+
+  color: var(--about-muted);
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.academic-classification {
+  display: block;
+
+  margin-top: 7px;
+
+  color: var(--about-burgundy);
+
+  font-size: 10px;
+  font-weight: 600;
+
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.academic-gpa {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  min-width: 76px;
+  padding-left: 16px;
+
+  border-left: 1px solid var(--about-border);
+}
+
+.academic-gpa strong {
+  color: var(--about-burgundy);
+
+  font-family:
+    var(--font-dm-sans),
+    sans-serif;
+
+  font-size: 25px;
+  font-weight: 600;
+
+  font-variant-numeric: tabular-nums;
+
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.academic-gpa > span {
+  color: var(--about-muted);
+
+  font-size: 10px;
+  font-weight: 500;
+
+  letter-spacing: 0.1em;
+}
+
+/* =========================================
+   SMALL DESKTOP
+   ========================================= */
+
+@media (min-width: 900px) and (max-width: 1199px) {
+  .about-grid {
+    gap: 40px;
+  }
+
+  .about-image-wrapper {
+    aspect-ratio: 4 / 5.8;
+  }
+
+  .academic-card {
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .academic-title {
+    font-size: 14px;
+  }
+}
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 899px) {
+  .about-section {
+    padding-block: 36px 55px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .about-figure {
+    max-width: 520px;
+    margin-inline: auto;
+  }
+
+  .about-image-wrapper {
+    aspect-ratio: 4 / 4.8;
+  }
+
+  .about-heading {
+    font-size: clamp(36px, 7vw, 58px);
+  }
+
+  .academic-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-technical-texture {
+    width: 65%;
+  }
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 599px) {
+  .about-section {
+    padding-block: 28px 45px;
+    scroll-margin-top: 85px;
+  }
+
+  .about-section-header {
+    gap: 8px;
+
+    padding-bottom: 15px;
+    margin-bottom: 24px;
+  }
+
+  .about-section-index {
+    font-size: 9px;
+    letter-spacing: 0.04em;
+  }
+
+  .about-section-caption {
+    font-size: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .about-header-divider {
+    height: 10px;
+  }
+
+  .about-grid {
+    gap: 30px;
+  }
+
+  .about-figure::before {
+    inset: 6px -6px -6px 6px;
+  }
+
+  .about-image-wrapper {
+    aspect-ratio: 4 / 4.5;
+  }
+
+  .about-heading {
+    font-size: clamp(32px, 9vw, 48px);
+    margin-bottom: 18px;
+  }
+
+  .about-eyebrow {
+    font-size: 9px;
+    line-height: 1.7;
+  }
+
+  .about-introduction {
+    font-size: 16px;
+  }
+
+  .about-description {
+    font-size: 14px;
+  }
+
+  .about-focus-item {
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+
+  .engineering-workflow {
+    margin-top: 30px;
+    padding: 18px 12px;
+  }
+
+  .workflow-header {
+    font-size: 10px;
+    margin-bottom: 17px;
+  }
+
+  .workflow-stages {
+    gap: 4px;
+  }
+
+  .workflow-stage {
+    padding: 4px 0;
+    font-size: 10px;
+  }
+
+  .workflow-stage-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .workflow-stage-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .workflow-connector {
+    top: 17px;
+    right: -7px;
+    width: 10px;
+  }
+
+  .workflow-description {
+    min-height: 100px;
+  }
+
+  .about-academic {
+    margin-top: 32px;
+    padding-top: 22px;
+  }
+
+  .academic-card {
+    padding: 16px;
+    gap: 11px;
+  }
+
+  .academic-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .academic-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .academic-title {
+    font-size: 13px;
+  }
+
+  .academic-programme {
+    font-size: 11px;
+  }
+
+  .academic-classification {
+    font-size: 9px;
+  }
+
+  .academic-gpa {
+    min-width: 55px;
+    padding-left: 10px;
+  }
+
+  .academic-gpa strong {
+    font-size: 21px;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .about-focus-item,
+  .about-journey-link,
+  .about-journey-link svg,
+  .workflow-stage-icon,
+  .academic-card,
+  .academic-card::before {
+    transition: none;
+  }
+
+  .academic-card:hover,
+  .about-journey-link:hover svg {
+    transform: none;
+  }
+}
+
+
+
+/* =========================================
+   PREMIUM JOURNEY BUTTON
+   ========================================= */
+
+.about-section .about-journey-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 28px;
+  margin-top: 24px;
+  min-height: 50px;
+  padding: 14px 22px;
+
+  background: var(--about-burgundy);
+  color: var(--about-gold);
+
+  border: 1px solid var(--about-burgundy);
+  border-radius: 4px;
+
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    background-color 350ms ease,
+    color 350ms ease,
+    box-shadow 350ms ease;
+}
+
+.about-journey-link svg {
+  flex-shrink: 0;
+  color: currentColor;
+
+  transition: transform 350ms ease;
+}
+
+/* Reverse colours on hover */
+
+@media (hover: hover) {
+  .about-section .about-journey-link:hover {
+    background: var(--about-gold);
+    color: var(--about-burgundy);
+
+    box-shadow: 0 6px 20px rgba(91, 14, 20, 0.08);
+  }
+
+  .about-journey-link:hover svg {
+    transform: translate(3px, -3px);
+  }
+}
+
+/* Keyboard accessibility */
+
+.about-journey-link:focus-visible {
+  background: var(--about-gold);
+  color: var(--about-burgundy);
+
+  outline: 2px solid var(--about-burgundy);
+  outline-offset: 4px;
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .about-section .about-journey-link,
+  .about-journey-link svg {
+    transition: none;
+  }
+
+  .about-journey-link:hover svg {
+    transform: none;
+  }
+}
+
+
+/* =========================================
+   ACADEMIC INSTITUTION
+   ========================================= */
+
+.academic-information {
+  min-width: 0;
+}
+
+.academic-institution {
+  margin-top: 7px;
+  margin-bottom: 12px;
+
+  color: var(--about-muted, #756a61);
+
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+
+  overflow-wrap: break-word;
+}
+
+.academic-gpa {
+  flex-shrink: 0;
+}
+
+/* Mobile refinement */
+
+@media (max-width: 599px) {
+  .academic-institution {
+    font-size: 11px;
+    line-height: 1.6;
+    margin-top: 6px;
+    margin-bottom: 10px;
+  }
+}
