@@ -1,0 +1,963 @@
+
+/* =========================================
+   NAVBAR — LIQUID GLASS DESIGN SYSTEM
+========================================= */
+
+.site-header.glass-navbar {
+  --glass-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --glass-background: rgba(38, 12, 9, 0.46);
+  --glass-foreground: #f8f6f0;
+  --glass-brand: #f1e194;
+  --glass-muted: #e0ccae;
+  --glass-border: rgba(241, 225, 148, 0.24);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.16);
+
+  position: fixed;
+  top: 16px;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  width: 100%;
+  padding: 0 28px;
+
+  background: transparent;
+  border: none;
+
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+
+  pointer-events: none;
+
+  transition: top 300ms var(--glass-ease);
+}
+
+/* =========================================
+   ADAPTIVE COLOUR THEMES
+========================================= */
+
+.site-header.glass-navbar[data-theme="dark"] {
+  --glass-background: rgba(38, 12, 9, 0.58);
+  --glass-foreground: #f8f6f0;
+  --glass-brand: #f1e194;
+  --glass-muted: #e0ccae;
+  --glass-border: rgba(241, 225, 148, 0.24);
+}
+
+.site-header.glass-navbar[data-theme="light"] {
+  --glass-background: rgba(248, 246, 240, 0.78);
+  --glass-foreground: #171513;
+  --glass-brand: #5b0e14;
+  --glass-muted: #756a61;
+  --glass-border: rgba(91, 14, 20, 0.18);
+  --glass-shadow: 0 8px 32px rgba(91, 14, 20, 0.08);
+}
+
+.site-header.glass-navbar[data-theme="dark"]:not(.site-header-scrolled) {
+  --glass-background: rgba(38, 12, 9, 0.35);
+}
+
+.site-header.glass-navbar.site-header-scrolled {
+  top: 10px;
+}
+
+/* =========================================
+   FLOATING GLASS SHELL
+========================================= */
+
+.glass-navbar .glass-navbar-shell {
+  position: relative;
+
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+
+  background: var(--glass-background);
+  box-shadow: var(--glass-shadow);
+
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  backdrop-filter: blur(24px) saturate(150%);
+
+  isolation: isolate;
+  overflow: hidden;
+  pointer-events: auto;
+
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  --reflection-opacity: 0;
+
+  transition:
+    background 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    border-radius 300ms var(--glass-ease);
+}
+
+/* =========================================
+   GLASS SURFACE REFLECTION
+========================================= */
+
+.glass-navbar .glass-surface-reflection {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  border-radius: inherit;
+
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0.10),
+    rgba(255, 255, 255, 0.025) 30%,
+    transparent 55%,
+    rgba(255, 255, 255, 0.04)
+  );
+
+  pointer-events: none;
+}
+
+.glass-navbar[data-theme="light"] .glass-surface-reflection {
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0.30),
+    transparent 50%,
+    rgba(255, 255, 255, 0.10)
+  );
+}
+
+/* Subtle glass edge highlight */
+
+.glass-navbar .glass-navbar-shell::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  border-radius: inherit;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.035);
+
+  pointer-events: none;
+}
+
+/* =========================================
+   INTERACTIVE POINTER REFLECTION
+========================================= */
+
+.glass-navbar .glass-pointer-reflection {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  border-radius: inherit;
+
+  background: radial-gradient(
+    220px circle at var(--pointer-x) var(--pointer-y),
+    rgba(255, 255, 255, 0.17),
+    rgba(255, 255, 255, 0.045) 45%,
+    transparent 75%
+  );
+
+  opacity: var(--reflection-opacity);
+  pointer-events: none;
+
+  transition: opacity 300ms ease;
+}
+
+/* =========================================
+   NAVBAR INNER LAYOUT
+========================================= */
+
+.glass-navbar .navbar-inner {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  max-width: none;
+  min-height: 72px;
+
+  margin: 0;
+  padding: 10px 28px;
+
+  gap: 24px;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+
+  transition:
+    min-height 300ms var(--glass-ease),
+    padding 300ms var(--glass-ease);
+}
+
+.glass-navbar.site-header-scrolled .navbar-inner {
+  min-height: 64px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* =========================================
+   LOGO
+========================================= */
+
+.glass-navbar .navbar-inner > a:first-child,
+.glass-navbar .site-logo,
+.glass-navbar .logo,
+.glass-navbar .brand-logo {
+  display: inline-flex;
+  flex-shrink: 0;
+
+  color: var(--glass-brand);
+  text-decoration: none;
+
+  transition: color 250ms ease;
+}
+
+.glass-navbar .logo-mark,
+.glass-navbar .logo-text,
+.glass-navbar .logo-monogram,
+.glass-navbar .logo-name,
+.glass-navbar .logo-caption,
+.glass-navbar .logo-subtitle,
+.glass-navbar .brand-name,
+.glass-navbar .brand-mark,
+.glass-navbar .brand-caption {
+  color: var(--glass-brand);
+  transition: color 250ms ease;
+}
+
+.glass-navbar .navbar-inner > a:first-child span {
+  color: inherit;
+}
+
+.glass-navbar .navbar-inner > a:first-child svg {
+  color: var(--glass-brand);
+}
+
+/* =========================================
+   DESKTOP NAVIGATION
+========================================= */
+
+.glass-navbar .desktop-navigation {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 3px;
+
+  margin: 0 auto;
+  padding: 4px;
+
+  isolation: isolate;
+}
+
+.glass-navbar .nav-link {
+  position: relative;
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 40px;
+  padding: 10px 13px;
+
+  border-radius: 10px;
+  background: transparent;
+
+  color: var(--glass-foreground);
+
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.055em;
+
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+
+  transition: color 200ms ease;
+}
+
+.glass-navbar .nav-link::before,
+.glass-navbar .nav-link::after {
+  display: none;
+}
+
+.glass-navbar .nav-link:hover,
+.glass-navbar .nav-link:focus-visible,
+.glass-navbar .nav-link-active {
+  color: var(--glass-brand);
+  background: transparent;
+}
+
+.glass-navbar[data-theme="dark"] .nav-link {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.20);
+}
+
+.glass-navbar[data-theme="light"] .nav-link {
+  text-shadow: none;
+}
+
+/* =========================================
+   SLIDING LIQUID GLASS LENS
+========================================= */
+
+.glass-navbar .nav-glass-lens {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+
+  display: block;
+
+  width: 0;
+  height: 0;
+
+  border: 1px solid rgba(241, 225, 148, 0.16);
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(241, 225, 148, 0.06)
+  );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.10),
+    0 3px 10px rgba(0, 0, 0, 0.05);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    transform 320ms var(--glass-ease),
+    width 320ms var(--glass-ease),
+    height 320ms var(--glass-ease),
+    opacity 180ms ease,
+    background 250ms ease,
+    border-color 250ms ease;
+}
+
+.glass-navbar[data-theme="light"] .nav-glass-lens {
+  background: rgba(91, 14, 20, 0.08);
+  border-color: rgba(91, 14, 20, 0.10);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* =========================================
+   NAVBAR ACTIONS
+========================================= */
+
+.glass-navbar .navbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+/* =========================================
+   DOWNLOAD CV BUTTON
+========================================= */
+
+.glass-navbar .glass-cv-button {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 42px;
+  padding: 11px 20px;
+
+  gap: 12px;
+
+  border: 1px solid transparent;
+  border-radius: 10px;
+
+  background: #f1e194;
+  color: #5b0e14;
+
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.065em;
+
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  transition:
+    background 250ms ease,
+    color 250ms ease,
+    border-color 250ms ease,
+    box-shadow 250ms ease,
+    transform 250ms var(--glass-ease);
+}
+
+.glass-navbar .glass-cv-button:hover {
+  background: #fff0b0;
+  color: #5b0e14;
+
+  box-shadow: 0 4px 18px rgba(241, 225, 148, 0.15);
+
+  transform: translateY(-1px);
+}
+
+.glass-navbar[data-theme="light"] .glass-cv-button {
+  background: #5b0e14;
+  color: #f1e194;
+}
+
+.glass-navbar[data-theme="light"] .glass-cv-button:hover {
+  background: #741820;
+  color: #f8f6f0;
+
+  box-shadow: 0 4px 18px rgba(91, 14, 20, 0.12);
+}
+
+.glass-navbar .glass-cv-label {
+  position: relative;
+  z-index: 1;
+}
+
+.glass-navbar .glass-cv-arrow {
+  flex-shrink: 0;
+
+  transition: transform 250ms var(--glass-ease);
+}
+
+.glass-navbar .glass-cv-button:hover .glass-cv-arrow {
+  transform: translate(2px, -2px);
+}
+
+/* =========================================
+   MOBILE MENU TOGGLE
+========================================= */
+
+.glass-navbar .mobile-menu-toggle {
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  padding: 0;
+
+  border: 1px solid var(--glass-border);
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--glass-brand);
+
+  cursor: pointer;
+
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease,
+    transform 250ms var(--glass-ease);
+}
+
+.glass-navbar .mobile-menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.glass-navbar[data-theme="light"] .mobile-menu-toggle {
+  background: rgba(91, 14, 20, 0.045);
+}
+
+.glass-navbar .mobile-toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glass-navbar.glass-menu-open .mobile-menu-toggle {
+  background: var(--glass-brand);
+  color: #5b0e14;
+}
+
+.glass-navbar[data-theme="light"].glass-menu-open .mobile-menu-toggle {
+  color: #f1e194;
+}
+
+/* =========================================
+   MOBILE MENU BACKDROP
+========================================= */
+
+.mobile-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+
+  background: rgba(23, 21, 19, 0.30);
+
+  -webkit-backdrop-filter: blur(12px) saturate(85%);
+  backdrop-filter: blur(12px) saturate(85%);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 300ms ease,
+    visibility 300ms ease;
+}
+
+.mobile-menu-backdrop.mobile-menu-backdrop-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+body.mobile-nav-open main,
+body.mobile-nav-open footer {
+  filter: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* =========================================
+   MOBILE NAVIGATION PANEL
+========================================= */
+
+.glass-navbar .mobile-navigation {
+  position: absolute;
+
+  top: calc(100% + 10px);
+  left: 28px;
+  right: 28px;
+
+  display: none;
+
+  max-height: calc(100dvh - 110px);
+
+  padding: 20px;
+
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+
+  background: rgba(38, 12, 9, 0.97);
+  color: var(--glass-foreground);
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transform: translateY(-10px) scale(0.98);
+  transform-origin: top center;
+
+  transition:
+    opacity 250ms ease,
+    visibility 250ms ease,
+    transform 350ms var(--glass-ease);
+}
+
+.glass-navbar[data-theme="light"] .mobile-navigation {
+  background: rgba(248, 246, 240, 0.98);
+}
+
+.glass-navbar.glass-menu-open .mobile-navigation {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+  transform: translateY(0) scale(1);
+}
+
+/* =========================================
+   MOBILE NAVIGATION LINKS
+========================================= */
+
+.glass-navbar .mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.glass-navbar .mobile-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  min-height: 48px;
+
+  padding: 14px 12px;
+
+  border-bottom: 1px solid var(--glass-border);
+
+  color: var(--glass-foreground);
+
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+
+  text-decoration: none;
+
+  transition:
+    color 200ms ease,
+    background 200ms ease,
+    padding 250ms var(--glass-ease);
+}
+
+.glass-navbar .mobile-nav-link:hover,
+.glass-navbar .mobile-nav-link:focus-visible {
+  padding-left: 18px;
+
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--glass-brand);
+}
+
+.glass-navbar .mobile-nav-link svg {
+  color: var(--glass-brand);
+  flex-shrink: 0;
+}
+
+.glass-navbar .mobile-nav-footer,
+.glass-navbar .mobile-nav-actions {
+  margin-top: 20px;
+}
+
+.glass-navbar .mobile-cv-button,
+.glass-navbar .mobile-nav-cv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 46px;
+
+  padding: 12px 18px;
+  gap: 10px;
+
+  border-radius: 10px;
+
+  background: #f1e194;
+  color: #5b0e14;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+.glass-navbar[data-theme="light"] .mobile-cv-button,
+.glass-navbar[data-theme="light"] .mobile-nav-cv {
+  background: #5b0e14;
+  color: #f1e194;
+}
+
+/* =========================================
+   MOBILE MENU ENTRY ANIMATION
+========================================= */
+
+.glass-navbar.glass-menu-open .mobile-nav-link {
+  animation: mobile-nav-enter 350ms var(--glass-ease) both;
+}
+
+.glass-menu-open .mobile-nav-link:nth-child(1) {
+  animation-delay: 40ms;
+}
+
+.glass-menu-open .mobile-nav-link:nth-child(2) {
+  animation-delay: 70ms;
+}
+
+.glass-menu-open .mobile-nav-link:nth-child(3) {
+  animation-delay: 100ms;
+}
+
+.glass-menu-open .mobile-nav-link:nth-child(4) {
+  animation-delay: 130ms;
+}
+
+.glass-menu-open .mobile-nav-link:nth-child(5) {
+  animation-delay: 160ms;
+}
+
+.glass-menu-open .mobile-nav-link:nth-child(6) {
+  animation-delay: 190ms;
+}
+
+.glass-menu-open .mobile-nav-link:nth-child(7) {
+  animation-delay: 220ms;
+}
+
+@keyframes mobile-nav-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   LARGE DESKTOP
+========================================= */
+
+@media (min-width: 1440px) {
+  .glass-navbar .navbar-inner {
+    padding-inline: 32px;
+  }
+
+  .glass-navbar .desktop-navigation {
+    gap: 5px;
+  }
+
+  .glass-navbar .nav-link {
+    padding-inline: 15px;
+    font-size: 12px;
+  }
+}
+
+/* =========================================
+   SMALL DESKTOP / LAPTOP
+========================================= */
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .site-header.glass-navbar {
+    padding-inline: 20px;
+  }
+
+  .glass-navbar .navbar-inner {
+    padding-inline: 18px;
+    gap: 12px;
+  }
+
+  .glass-navbar .desktop-navigation {
+    gap: 0;
+  }
+
+  .glass-navbar .nav-link {
+    padding-inline: 8px;
+    font-size: 10px;
+    letter-spacing: 0.025em;
+  }
+
+  .glass-navbar .glass-cv-button {
+    padding-inline: 13px;
+    font-size: 10px;
+    gap: 8px;
+  }
+}
+
+/* =========================================
+   TABLET & MOBILE
+========================================= */
+
+@media (max-width: 1023px) {
+  .site-header.glass-navbar {
+    top: 12px;
+    padding-inline: 18px;
+  }
+
+  .site-header.glass-navbar.site-header-scrolled {
+    top: 8px;
+  }
+
+  .glass-navbar .glass-navbar-shell {
+    border-radius: 15px;
+  }
+
+  .glass-navbar .navbar-inner {
+    min-height: 64px;
+
+    padding: 8px 18px;
+    gap: 12px;
+  }
+
+  .glass-navbar.site-header-scrolled .navbar-inner {
+    min-height: 60px;
+  }
+
+  .glass-navbar .desktop-navigation,
+  .glass-navbar .desktop-cv-button {
+    display: none;
+  }
+
+  .glass-navbar .mobile-menu-toggle {
+    display: inline-flex;
+  }
+
+  .glass-navbar .mobile-navigation {
+    display: block;
+
+    left: 18px;
+    right: 18px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 640px) {
+  .site-header.glass-navbar {
+    top: 10px;
+    padding-inline: 12px;
+  }
+
+  .site-header.glass-navbar.site-header-scrolled {
+    top: 8px;
+  }
+
+  .glass-navbar .glass-navbar-shell {
+    border-radius: 13px;
+  }
+
+  .glass-navbar .navbar-inner {
+    min-height: 60px;
+
+    padding: 7px 14px;
+    gap: 10px;
+  }
+
+  .glass-navbar.site-header-scrolled .navbar-inner {
+    min-height: 58px;
+    padding-block: 6px;
+  }
+
+  .glass-navbar .mobile-menu-toggle {
+    width: 44px;
+    height: 44px;
+
+    border-radius: 10px;
+  }
+
+  .glass-navbar .mobile-navigation {
+    left: 12px;
+    right: 12px;
+
+    padding: 16px;
+
+    border-radius: 14px;
+  }
+
+  .glass-navbar .mobile-nav-link {
+    min-height: 46px;
+    font-size: 13px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 380px) {
+  .site-header.glass-navbar {
+    padding-inline: 8px;
+  }
+
+  .glass-navbar .navbar-inner {
+    padding-inline: 12px;
+  }
+
+  .glass-navbar .mobile-navigation {
+    left: 8px;
+    right: 8px;
+  }
+}
+
+/* =========================================
+   KEYBOARD ACCESSIBILITY
+========================================= */
+
+.glass-navbar a:focus-visible,
+.glass-navbar button:focus-visible {
+  outline: 2px solid var(--glass-brand);
+  outline-offset: 3px;
+}
+
+/* =========================================
+   TOUCH DEVICE OPTIMIZATION
+========================================= */
+
+@media (hover: none), (pointer: coarse) {
+  .glass-navbar .glass-pointer-reflection {
+    display: none;
+  }
+
+  .glass-navbar .glass-cv-button:hover {
+    transform: none;
+  }
+}
+
+/* =========================================
+   BROWSER FALLBACK
+========================================= */
+
+@supports not (
+  (backdrop-filter: blur(1px)) or
+  (-webkit-backdrop-filter: blur(1px))
+) {
+  .site-header.glass-navbar[data-theme="dark"],
+  .site-header.glass-navbar[data-theme="dark"]:not(.site-header-scrolled) {
+    --glass-background: #310e0c;
+  }
+
+  .site-header.glass-navbar[data-theme="light"] {
+    --glass-background: #f8f6f0;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-navbar *,
+  .glass-navbar *::before,
+  .glass-navbar *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .glass-navbar .glass-pointer-reflection {
+    display: none;
+  }
+
+  .mobile-menu-backdrop {
+    transition: none;
+  }
+}
+
+/* =========================================
+   END OF NAVBAR STYLESHEET
+========================================= */
