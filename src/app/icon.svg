@@ -1,0 +1,34 @@
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="512"
+  height="512"
+  viewBox="0 0 512 512"
+>
+  <title>Chami Narasinghe Monogram</title>
+
+  <rect
+    width="512"
+    height="512"
+    rx="96"
+    fill="#5B0E14"
+  />
+
+  <text
+    x="244"
+    y="340"
+    text-anchor="middle"
+    font-family="Georgia, Times New Roman, serif"
+    font-size="288"
+    font-weight="400"
+    letter-spacing="-28"
+    fill="#F1E194"
+  >CN</text>
+
+  <circle
+    cx="448"
+    cy="328"
+    r="16"
+    fill="#F1E194"
+  />
+</svg>
