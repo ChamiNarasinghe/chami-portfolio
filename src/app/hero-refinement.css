@@ -1,0 +1,194 @@
+/* Phase 03G.2 — Editorial hero composition */
+.hero-section {
+  --portrait-offset: 96px;
+  position: relative;
+  height: auto;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #260c09;
+}
+.hero-section .hero-background {
+  position: absolute;
+  inset: var(--portrait-offset) 0 0;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+.hero-section .hero-background picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.hero-section .hero-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transform: none;
+}
+.hero-section .hero-overlay {
+  background: linear-gradient(180deg, #260c09 0, #260c09 65px, transparent 165px),
+    linear-gradient(90deg, rgba(25,5,4,.38), rgba(35,7,5,.12) 45%, transparent 70%);
+}
+.hero-section .hero-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100svh;
+  height: auto;
+  padding-top: 145px;
+  padding-bottom: 90px;
+}
+.hero-section .hero-content {
+  width: 54%;
+  max-width: 720px;
+  margin: 0;
+  text-align: left;
+  align-items: flex-start;
+}
+.hero-section .hero-identity {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 16px;
+}
+.hero-section .hero-identity-line:last-child { display: none; }
+.hero-section .hero-role {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 34px;
+  line-height: 1.6;
+  letter-spacing: .14em;
+}
+.hero-section .hero-heading {
+  margin: 0 0 28px;
+  font-size: clamp(3.4rem, 5.4vw, 6.8rem);
+  line-height: 1.12;
+  letter-spacing: -.045em;
+  text-align: left;
+}
+.hero-section .hero-heading span,
+.hero-section .hero-heading em { display: block; }
+.hero-section .hero-heading em { margin-top: 5px; }
+.hero-section .hero-description {
+  max-width: 530px;
+  margin: 0 0 32px;
+  font-size: clamp(16px, 1.2vw, 19px);
+  line-height: 1.85;
+  text-align: left;
+}
+.hero-section .hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 0 0 26px;
+}
+.hero-section .hero-social-links {
+  justify-content: flex-start;
+  margin: 0;
+  text-align: left;
+}
+.hero-section .hero-scroll-link { bottom: 22px; }
+.hero-section .neural-network { z-index: 0; }
+.hero-section .hero-container,
+.hero-section .hero-scroll-link { z-index: 1; }
+@media (min-width: 900px) and (max-height: 800px) {
+  .hero-section .hero-container { padding-top: 125px; padding-bottom: 64px; }
+  .hero-section .hero-heading { font-size: clamp(3rem, 5vw, 5.8rem); }
+  .hero-section .hero-role { margin-bottom: 26px; }
+}
+@media (max-width: 899px) {
+  .hero-section { --portrait-offset: 80px; min-height: 100svh; }
+  .hero-section .hero-background { bottom: auto; height: auto; }
+  .hero-section .hero-background picture { height: auto; }
+  .hero-section .hero-image { height: auto; object-fit: contain; }
+  .hero-section .hero-overlay {
+    background: linear-gradient(180deg, #260c09 0, transparent 125px, transparent 25%, rgba(38,12,9,.15) 35%, rgba(38,12,9,.85) 58%, #260c09 78%);
+  }
+  .hero-section .hero-container {
+    align-items: flex-start;
+    padding-top: clamp(470px, 95vw, 740px);
+    padding-bottom: 72px;
+  }
+  .hero-section .hero-content { width: 100%; max-width: 580px; }
+  .hero-section .hero-heading { font-size: clamp(2.7rem, 8vw, 4.25rem); }
+  .hero-section .hero-role { margin-bottom: 26px; }
+  .hero-section .hero-description { font-size: 16px; }
+}
+@media (max-width: 599px) {
+  .hero-section .hero-container {
+    padding-top: clamp(350px, calc(82vw + 80px), 560px);
+    padding-bottom: 60px;
+    padding-inline: 24px;
+  }
+  .hero-section .hero-heading { font-size: clamp(2.3rem, 10vw, 3.5rem); margin-bottom: 24px; }
+  .hero-section .hero-role { font-size: 10px; letter-spacing: .12em; }
+  .hero-section .hero-description { font-size: 15px; margin-bottom: 26px; }
+  .hero-section .hero-actions { gap: 12px; }
+}
+@media (max-width: 359px) {
+  .hero-section .hero-container { padding-inline: 16px; }
+}
+/* Preserve expertise strip styling */
+.integrated-expertise { padding-bottom: 24px; }
+.integrated-expertise-inner { padding-top: 18px; }
+.integrated-expertise-label { margin-bottom: 14px; }
+.integrated-expertise-list { gap: 18px; }
+@media (max-width: 767px) {
+  .integrated-expertise-inner { padding-top: 20px; }
+  .integrated-expertise-label { margin-bottom: 16px; }
+  .integrated-expertise-list { gap: 16px 12px; }
+}
+
+/* Remove decorative lines beside the name */
+
+.hero-section .hero-identity-line {
+  display: none;
+}
+
+.hero-section .hero-identity {
+  justify-content: flex-start;
+  gap: 0;
+  padding-left: 0;
+}
+
+/* =========================================
+   PHASE 03G.4 — SEAMLESS PORTRAIT TRANSITION
+   ========================================= */
+
+@media (min-width: 900px) {
+
+  .hero-section {
+    --portrait-offset: 76px;
+  }
+
+  .hero-section .hero-background {
+    top: var(--portrait-offset);
+
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0px,
+      rgba(0, 0, 0, 0.5) 25px,
+      #000 65px
+    );
+
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0px,
+      rgba(0, 0, 0, 0.5) 25px,
+      #000 65px
+    );
+  }
+
+  .hero-section .hero-image {
+    object-position: center top;
+  }
+}
