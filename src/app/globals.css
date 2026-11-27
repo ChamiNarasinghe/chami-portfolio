@@ -1271,3 +1271,56 @@ button:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+/* Reveal animations stay visible until an offscreen element is observed. */
+.reveal {
+  transition:
+    opacity var(--reveal-duration, 0.8s) var(--ease-premium)
+      var(--reveal-delay, 0s),
+    transform var(--reveal-duration, 0.8s) var(--ease-premium)
+      var(--reveal-delay, 0s);
+}
+
+.reveal[data-reveal-state="pending"] {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance, 24px));
+}
+
+.reveal:focus-within {
+  opacity: 1;
+  transform: translateY(0);
+  transition: none;
+}
+
+.reveal--immediate {
+  animation: reveal-immediate
+    var(--reveal-duration, 0.8s)
+    var(--ease-premium)
+    var(--reveal-delay, 0s)
+    both;
+}
+
+@keyframes reveal-immediate {
+  from {
+    opacity: 1;
+    transform: translateY(var(--reveal-distance, 24px));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal--immediate {
+    animation: none;
+    transition: none;
+  }
+
+  .reveal[data-reveal-state="pending"] {
+    opacity: 1;
+    transform: none;
+  }
+}
