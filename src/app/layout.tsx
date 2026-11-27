@@ -16,6 +16,7 @@ import "./about.css";
 import "./experience.css";
 import "./projects.css";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -179,6 +180,7 @@ export default function RootLayout({
 
         {children}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
