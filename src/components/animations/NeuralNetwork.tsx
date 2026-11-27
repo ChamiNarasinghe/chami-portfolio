@@ -75,6 +75,9 @@ export default function NeuralNetwork() {
       "(hover: hover) and (pointer: fine)"
     );
 
+    const supportsIntersectionObserver =
+      typeof window.IntersectionObserver === "function";
+
     let width = 0;
     let height = 0;
 
@@ -85,7 +88,7 @@ export default function NeuralNetwork() {
     let animationFrame = 0;
     let resizeFrame = 0;
 
-    let isVisible = false;
+    let isVisible = !supportsIntersectionObserver;
     let isDisposed = false;
 
     let lastFrameTime = 0;
@@ -449,6 +452,7 @@ export default function NeuralNetwork() {
 
     function canAnimate() {
       return (
+        supportsIntersectionObserver &&
         !isDisposed &&
         isVisible &&
         !document.hidden &&
@@ -562,7 +566,14 @@ export default function NeuralNetwork() {
     }
 
     function refreshCanvasBounds() {
-      if (!canvas || !isVisible || isDisposed) return;
+      if (
+        !canvas ||
+        !supportsIntersectionObserver ||
+        !isVisible ||
+        isDisposed
+      ) {
+        return;
+      }
 
       canvasBounds =
         canvas.getBoundingClientRect();
@@ -580,25 +591,30 @@ export default function NeuralNetwork() {
     // VIEWPORT VISIBILITY
     // =========================================
 
-    const intersectionObserver =
-      new IntersectionObserver(
-        ([entry]) => {
-          if (!entry) return;
+    let intersectionObserver: IntersectionObserver | null =
+      null;
 
-          isVisible = entry.isIntersecting;
+    if (supportsIntersectionObserver) {
+      intersectionObserver =
+        new window.IntersectionObserver(
+          ([entry]) => {
+            if (!entry) return;
 
-          if (isVisible) {
-            refreshCanvasBounds();
+            isVisible = entry.isIntersecting;
+
+            if (isVisible) {
+              refreshCanvasBounds();
+            }
+
+            syncAnimation();
+          },
+          {
+            threshold: 0,
           }
+        );
 
-          syncAnimation();
-        },
-        {
-          threshold: 0,
-        }
-      );
-
-    intersectionObserver.observe(container);
+      intersectionObserver.observe(container);
+    }
 
     // =========================================
     // RESPONSIVE LAYOUT OBSERVER
@@ -679,7 +695,7 @@ export default function NeuralNetwork() {
       }
 
       resizeObserver.disconnect();
-      intersectionObserver.disconnect();
+      intersectionObserver?.disconnect();
 
       hero?.removeEventListener(
         "pointermove",

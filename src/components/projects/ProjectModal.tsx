@@ -20,6 +20,9 @@ export default function ProjectModal({
 }: ProjectModalProps) {
   const dialogRef =
     useRef<HTMLDialogElement>(null);
+  const closeRequestedRef = useRef(false);
+  const escapeFallbackTimerRef =
+    useRef<number | null>(null);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -42,6 +45,13 @@ export default function ProjectModal({
       "hidden";
 
     return () => {
+      if (escapeFallbackTimerRef.current !== null) {
+        window.clearTimeout(
+          escapeFallbackTimerRef.current
+        );
+        escapeFallbackTimerRef.current = null;
+      }
+
       dialog.close();
 
       document.body.style.overflow =
@@ -58,18 +68,55 @@ export default function ProjectModal({
     };
   }, []);
 
+  function clearEscapeFallback() {
+    if (escapeFallbackTimerRef.current === null) {
+      return;
+    }
+
+    window.clearTimeout(escapeFallbackTimerRef.current);
+    escapeFallbackTimerRef.current = null;
+  }
+
+  function requestClose() {
+    clearEscapeFallback();
+
+    if (closeRequestedRef.current) return;
+
+    closeRequestedRef.current = true;
+    onClose();
+  }
+
   return (
     <dialog
       ref={dialogRef}
       className="project-modal"
       aria-labelledby="project-modal-title"
+      onKeyDown={(event) => {
+        if (
+          event.key !== "Escape" ||
+          event.defaultPrevented
+        ) {
+          return;
+        }
+
+        clearEscapeFallback();
+
+        escapeFallbackTimerRef.current =
+          window.setTimeout(() => {
+            escapeFallbackTimerRef.current = null;
+
+            if (dialogRef.current?.open) {
+              requestClose();
+            }
+          }, 0);
+      }}
       onCancel={(event) => {
         event.preventDefault();
-        onClose();
+        requestClose();
       }}
       onClick={(event) => {
         if (event.target === event.currentTarget) {
-          onClose();
+          requestClose();
         }
       }}
     >
@@ -83,7 +130,7 @@ export default function ProjectModal({
             type="button"
             className="project-modal-close"
             aria-label="Close case study"
-            onClick={onClose}
+            onClick={requestClose}
             autoFocus
           >
             <X size={22} aria-hidden="true" />
@@ -219,7 +266,7 @@ export default function ProjectModal({
             <button
               type="button"
               className="project-modal-back"
-              onClick={onClose}
+              onClick={requestClose}
             >
               Back to projects
             </button>
