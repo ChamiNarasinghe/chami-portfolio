@@ -24,7 +24,7 @@ export const experiences: ExperienceCompany[] = [
   {
     id: "botcalm",
     name: "BotCalm",
-    logo: "/images/companies/botcalm.jfif",
+    logo: "/images/companies/botcalm.webp",
     website: "https://www.linkedin.com/company/96096906/",
     employmentType: "Full-time",
     period: "September 2025 — Present",

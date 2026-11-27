@@ -17,14 +17,14 @@ export const certifications: Certification[] = [
     title: "Artificial Intelligence Fundamentals",
     issuer: "IBM",
     issued: "November 2026",
-    logo: "/images/certifications/ibm.jfif",
+    logo: "/images/certifications/ibm.webp",
   },
   {
     id: "linkedin-generative-ai",
     title: "Generative AI: From Prompts to Partnership",
     issuer: "LinkedIn",
     issued: "November 2026",
-    logo: "/images/certifications/linkedin.jfif",
+    logo: "/images/certifications/linkedin.webp",
     skills: ["AI Literacy", "Generative AI"],
   },
   {
@@ -34,7 +34,7 @@ export const certifications: Certification[] = [
     issued: "July 2026",
     logo: "/images/certifications/one-million-prompters.webp",
     certificate:
-      "/documents/certificates/one-million-prompters.jfif",
+      "/documents/certificates/one-million-prompters.webp",
     skills: ["Prompt Engineering", "AI Literacy"],
   },
   {
@@ -42,16 +42,16 @@ export const certifications: Certification[] = [
     title: "Database Foundations",
     issuer: "Oracle",
     issued: "September 2024",
-    logo: "/images/certifications/oracle.jfif",
+    logo: "/images/certifications/oracle.webp",
     certificate:
-      "/documents/certificates/database-foundations.jfif",
+      "/documents/certificates/database-foundations.webp",
   },
   {
     id: "postman-student-expert",
     title: "Postman API Fundamentals Student Expert",
     issuer: "Canvas Credentials (Badgr)",
     issued: "August 2024",
-    logo: "/images/certifications/badgr.jfif",
+    logo: "/images/certifications/badgr.webp",
     credentialId: "66cda9800ea2cf5db6747b05",
     skills: ["Postman API", "Postman"],
   },
@@ -60,9 +60,9 @@ export const certifications: Certification[] = [
     title: "API Beginner Learning Path",
     issuer: "Postman",
     issued: "August 2024",
-    logo: "/images/certifications/postman.jfif",
+    logo: "/images/certifications/postman.webp",
     certificate:
-      "/documents/certificates/api-beginner.jfif",
+      "/documents/certificates/api-beginner.webp",
     credentialUrl:
       "https://verify.skilljar.com/c/e6rje49n5mqp",
     skills: ["Postman API", "Postman"],
@@ -72,9 +72,9 @@ export const certifications: Certification[] = [
     title: "Python for Beginners",
     issuer: "University of Moratuwa",
     issued: "June 2024",
-    logo: "/images/certifications/moratuwa.jfif",
+    logo: "/images/certifications/moratuwa.webp",
     certificate:
-      "/documents/certificates/python-for-beginners.jfif",
+      "/documents/certificates/python-for-beginners.webp",
     credentialId: "oErqAzITFj",
     skills: ["Python"],
   },
@@ -83,9 +83,9 @@ export const certifications: Certification[] = [
     title: "Web Design for Beginners",
     issuer: "University of Moratuwa",
     issued: "June 2024",
-    logo: "/images/certifications/moratuwa.jfif",
+    logo: "/images/certifications/moratuwa.webp",
     certificate:
-      "/documents/certificates/web-design-for-beginners.jfif",
+      "/documents/certificates/web-design-for-beginners.webp",
     credentialId: "azsIpbCBSV",
     skills: ["CSS", "JavaScript"],
   },
