@@ -6,7 +6,7 @@
 .certifications-section {
   position: relative;
   overflow: hidden;
-  padding: 100px 0;
+  padding: 68px 0;
 
   background:
     radial-gradient(
@@ -46,16 +46,21 @@
 .certifications-container {
   position: relative;
   z-index: 1;
+
+  min-width: 0;
 }
 
-/* SECTION HEADER */
+
+/* =========================================
+   SECTION HEADER
+========================================= */
 
 .certifications-header {
   display: flex;
   align-items: center;
   gap: 24px;
 
-  margin-bottom: 48px;
+  margin-bottom: 30px;
 
   color: #f1e194;
   font-size: 11px;
@@ -67,18 +72,26 @@
 .certifications-header-line {
   flex: 1;
   height: 1px;
+
   background: rgba(241, 225, 148, 0.25);
 }
 
-/* INTRODUCTION */
+
+/* =========================================
+   SECTION INTRODUCTION
+========================================= */
 
 .certifications-intro {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 40px;
+  display: grid;
 
-  margin-bottom: 40px;
+  grid-template-columns:
+    minmax(0, 1.1fr)
+    minmax(0, 0.9fr);
+
+  align-items: end;
+  gap: 36px;
+
+  margin-bottom: 8px;
 }
 
 .certifications-eyebrow {
@@ -106,64 +119,208 @@
 }
 
 .certifications-description {
-  max-width: 620px;
-  margin-top: 22px;
+  max-width: 520px;
+  margin-top: 8px;
 
   color: rgba(248, 246, 240, 0.78);
+
   font-size: 15px;
   line-height: 1.8;
 }
 
-.certifications-count {
+
+/* =========================================
+   CAROUSEL NAVIGATION
+========================================= */
+
+.certifications-toolbar {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 7px;
+  justify-content: flex-end;
+  align-items: center;
+
+  margin-bottom: 12px;
+}
+
+.certifications-navigation {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.certifications-arrow {
+  display: grid;
+  place-items: center;
 
   flex-shrink: 0;
-  padding-left: 28px;
 
-  border-left: 1px solid rgba(241, 225, 148, 0.3);
+  width: 40px;
+  height: 40px;
+
+  padding: 0;
+
+  border: 1px solid #f1e194;
+  border-radius: 50%;
+
+  background: transparent;
   color: #f1e194;
+
+  cursor: pointer;
+
+  transition:
+    background-color 250ms ease,
+    color 250ms ease,
+    opacity 250ms ease,
+    transform 250ms ease;
 }
 
-.certifications-count strong {
-  font-family: var(--font-playfair), Georgia, serif;
-  font-size: 54px;
-  font-weight: 400;
-  line-height: 1.1;
+.certifications-arrow-next {
+  background: #f1e194;
+  color: #5b0e14;
 }
 
-.certifications-count span {
-  font-size: 12px;
-  color: rgba(248, 246, 240, 0.75);
+.certifications-arrow:hover:not(:disabled) {
+  background: #f1e194;
+  color: #5b0e14;
+
+  transform: translateY(-2px);
 }
 
-/* CERTIFICATION GRID */
-
-.certifications-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
+.certifications-arrow:active:not(:disabled) {
+  transform: scale(0.95);
 }
 
-.certifications-grid > * {
+.certifications-arrow:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+
+
+/* =========================================
+   HORIZONTAL CAROUSEL
+========================================= */
+
+.certifications-track {
+  --certification-gap: 16px;
+  --certification-visible: 4;
+
+  position: relative;
+
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+
+  gap: var(--certification-gap);
+
+  width: 100%;
   min-width: 0;
-  height: 100%;
+  max-width: 100%;
+
+  box-sizing: border-box;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  padding: 6px 2px 12px;
+
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scroll-padding-inline: 2px;
+
+  overscroll-behavior-x: contain;
+
+  touch-action: pan-x pan-y pinch-zoom;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  cursor: grab;
 }
 
-/* CERTIFICATION CARD */
+.certifications-track::-webkit-scrollbar {
+  display: none;
+}
+
+.certifications-track:focus-visible {
+  outline: 2px solid #f1e194;
+  outline-offset: 3px;
+}
+
+.certifications-track.certifications-dragging {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+
+  cursor: grabbing;
+
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.certifications-track.certifications-dragging * {
+  cursor: grabbing !important;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+
+/* =========================================
+   CAROUSEL SLIDE
+========================================= */
+
+.certification-slide {
+  display: flex;
+  align-items: stretch;
+
+  flex: 0 0 calc(
+    (
+      100% -
+      (
+        var(--certification-visible) - 1
+      ) * var(--certification-gap)
+    ) / var(--certification-visible)
+  );
+
+  min-width: 0;
+
+  box-sizing: border-box;
+
+  scroll-snap-align: start;
+}
+
+.certification-reveal {
+  display: flex;
+
+  flex: 1 1 auto;
+
+  width: 100%;
+  min-width: 0;
+
+  align-items: stretch;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   CERTIFICATION CARD
+========================================= */
 
 .certification-card {
   position: relative;
 
   display: flex;
   flex-direction: column;
-  gap: 16px;
 
-  height: 100%;
-  min-height: 240px;
-  padding: 22px;
+  flex: 1 1 auto;
+
+  gap: 14px;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 270px;
+
+  box-sizing: border-box;
+
+  padding: 20px;
 
   border: 1px solid rgba(241, 225, 148, 0.24);
   border-radius: 10px;
@@ -177,19 +334,31 @@
     box-shadow 250ms ease;
 }
 
-.certification-card:hover {
-  transform: translateY(-4px);
+@media (hover: hover) and (pointer: fine) {
+  .certifications-track:not(.certifications-dragging)
+    .certification-card:hover {
+    transform: translateY(-4px);
 
-  border-color: rgba(241, 225, 148, 0.7);
-  background: rgba(255, 255, 255, 0.065);
+    border-color: rgba(241, 225, 148, 0.7);
 
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.14);
+    background: rgba(255, 255, 255, 0.065);
+
+    box-shadow:
+      0 12px 35px rgba(0, 0, 0, 0.14);
+  }
 }
+
+
+/* =========================================
+   CARD LOGO AND AWARD
+========================================= */
 
 .certification-card-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+
+  gap: 12px;
 }
 
 .certification-logo {
@@ -197,55 +366,94 @@
   justify-content: center;
   align-items: center;
 
+  flex-shrink: 0;
+
   width: 52px;
   height: 52px;
+
   padding: 5px;
 
+  box-sizing: border-box;
+
   overflow: hidden;
+
   border-radius: 8px;
 
   background: #f8f6f0;
 }
 
 .certification-logo-image {
+  display: block;
+
   width: 100%;
   height: 100%;
+
   object-fit: contain;
+
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .certification-award {
+  flex-shrink: 0;
+
   color: #f1e194;
   opacity: 0.7;
 }
 
+
+/* =========================================
+   CARD INFORMATION
+========================================= */
+
+.certification-card-content {
+  min-width: 0;
+}
+
 .certification-card-content h3 {
   color: #f8f6f0;
+
+  font-family: var(--font-playfair), Georgia, serif;
+
   font-size: 16px;
   font-weight: 600;
   line-height: 1.5;
+
+  overflow-wrap: anywhere;
 }
 
 .certification-issuer {
   margin-top: 7px;
 
   color: rgba(248, 246, 240, 0.75);
+
   font-size: 12px;
   line-height: 1.6;
+
+  overflow-wrap: anywhere;
 }
 
 .certification-date {
   margin-top: 7px;
 
   color: #f1e194;
+
   font-size: 11px;
+  line-height: 1.5;
 }
 
-/* SKILL TAGS */
+
+/* =========================================
+   SKILL TAGS
+========================================= */
 
 .certification-skills {
   display: flex;
   flex-wrap: wrap;
+
   gap: 6px;
+
+  min-width: 0;
 }
 
 .certification-skills span {
@@ -257,41 +465,67 @@
   background: rgba(241, 225, 148, 0.04);
 
   color: rgba(248, 246, 240, 0.85);
+
   font-size: 10px;
+  line-height: 1.5;
 }
 
-/* CARD ACTIONS */
+
+/* =========================================
+   CARD ACTIONS
+========================================= */
 
 .certification-actions {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+
+  gap: 9px;
+
+  min-width: 0;
 
   margin-top: auto;
-  padding-top: 14px;
+  padding-top: 12px;
 
   border-top: 1px solid rgba(241, 225, 148, 0.15);
+}
+
+.certification-actions:empty {
+  display: none;
 }
 
 .certification-actions button,
 .certification-actions a {
   display: inline-flex;
   align-items: center;
+
   gap: 7px;
 
+  max-width: 100%;
+
   padding: 0;
+
   border: 0;
+
   background: transparent;
 
   color: #f1e194;
+
   font-size: 12px;
   font-weight: 500;
+  line-height: 1.6;
 
-  cursor: pointer;
+  text-align: left;
   text-decoration: none;
 
+  cursor: pointer;
+
   transition: color 200ms ease;
+}
+
+.certification-actions button svg,
+.certification-actions a svg {
+  flex-shrink: 0;
 }
 
 .certification-actions button:hover,
@@ -300,48 +534,22 @@
 }
 
 .certification-credential-id {
-  color: rgba(248, 246, 240, 0.65);
+  display: block;
+
+  max-width: 100%;
+
+  color: rgba(248, 246, 240, 0.60);
+
   font-size: 10px;
+  line-height: 1.6;
+
   overflow-wrap: anywhere;
 }
 
-/* VIEW ALL BUTTON */
 
-.certifications-footer {
-  display: flex;
-  justify-content: center;
-  margin-top: 32px;
-}
-
-.certifications-toggle {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 18px;
-
-  padding: 13px 24px;
-
-  border: 1px solid #f1e194;
-  border-radius: 5px;
-
-  background: #f1e194;
-  color: #5b0e14;
-
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-
-  transition:
-    background 200ms ease,
-    color 200ms ease;
-}
-
-.certifications-toggle:hover {
-  background: transparent;
-  color: #f1e194;
-}
-
-/* CERTIFICATE PREVIEW MODAL */
+/* =========================================
+   CERTIFICATE PREVIEW MODAL
+========================================= */
 
 .certificate-dialog {
   position: fixed;
@@ -353,6 +561,8 @@
   margin: auto;
   padding: 0;
 
+  box-sizing: border-box;
+
   overflow: auto;
 
   border: 1px solid rgba(241, 225, 148, 0.4);
@@ -361,12 +571,15 @@
   background: #41090e;
   color: #f8f6f0;
 
-  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.4);
+  box-shadow:
+    0 30px 100px rgba(0, 0, 0, 0.4);
 }
 
 .certificate-dialog::backdrop {
   background: rgba(15, 8, 8, 0.8);
+
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .certificate-dialog-content {
@@ -377,21 +590,31 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+
   gap: 20px;
 
   margin-bottom: 22px;
 }
 
+.certificate-dialog-header > div {
+  min-width: 0;
+}
+
 .certificate-dialog-header p {
-  color: #f1e194;
-  font-size: 12px;
   margin-bottom: 8px;
+
+  color: #f1e194;
+
+  font-size: 12px;
 }
 
 .certificate-dialog-header h3 {
   font-family: var(--font-playfair), Georgia, serif;
+
   font-size: clamp(20px, 3vw, 28px);
   line-height: 1.4;
+
+  overflow-wrap: anywhere;
 }
 
 .certificate-dialog-close {
@@ -400,15 +623,23 @@
   justify-content: center;
 
   flex-shrink: 0;
+
   width: 38px;
   height: 38px;
+
+  padding: 0;
 
   border: 1px solid rgba(241, 225, 148, 0.3);
   border-radius: 50%;
 
   background: transparent;
   color: #f1e194;
+
   cursor: pointer;
+
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
 }
 
 .certificate-dialog-close:hover {
@@ -422,7 +653,9 @@
   justify-content: center;
 
   overflow: hidden;
+
   border-radius: 6px;
+
   background: #f8f6f0;
 }
 
@@ -441,22 +674,33 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+
   gap: 12px;
 
   margin-top: 20px;
+
   font-size: 12px;
 }
 
 .certificate-dialog-footer a {
   display: inline-flex;
   align-items: center;
+
   gap: 7px;
 
   color: #f1e194;
+
   text-decoration: none;
 }
 
-/* KEYBOARD ACCESSIBILITY */
+.certificate-dialog-footer a:hover {
+  color: #ffffff;
+}
+
+
+/* =========================================
+   KEYBOARD ACCESSIBILITY
+========================================= */
 
 .certifications-section button:focus-visible,
 .certifications-section a:focus-visible {
@@ -464,24 +708,64 @@
   outline-offset: 4px;
 }
 
-/* TABLET */
 
-@media (max-width: 1100px) {
-  .certifications-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+/* =========================================
+   LAPTOP
+   3 EQUAL-WIDTH CARDS
+========================================= */
+
+@media (max-width: 1199px) {
+  .certifications-track {
+    --certification-visible: 3;
+  }
+
+  .certification-card {
+    padding: 18px;
   }
 }
 
-/* MOBILE */
 
-@media (max-width: 640px) {
+/* =========================================
+   TABLET
+   2 EQUAL-WIDTH CARDS
+========================================= */
+
+@media (max-width: 899px) {
   .certifications-section {
-    padding: 64px 0;
+    padding: 58px 0;
+  }
+
+  .certifications-intro {
+    grid-template-columns: 1fr;
+
+    gap: 16px;
+  }
+
+  .certifications-description {
+    max-width: 640px;
+  }
+
+  .certifications-track {
+    --certification-visible: 2;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+   ONE CARD + NEXT CARD PREVIEW
+========================================= */
+
+@media (max-width: 599px) {
+  .certifications-section {
+    padding: 46px 0;
   }
 
   .certifications-header {
     gap: 12px;
-    margin-bottom: 32px;
+
+    margin-bottom: 24px;
+
     font-size: 9px;
   }
 
@@ -490,47 +774,57 @@
   }
 
   .certifications-intro {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
+    gap: 12px;
 
-    margin-bottom: 28px;
+    margin-bottom: 10px;
+  }
+
+  .certifications-eyebrow {
+    margin-bottom: 12px;
+
+    font-size: 9px;
   }
 
   .certifications-intro h2 {
-    font-size: 36px;
+    font-size: clamp(32px, 8vw, 42px);
   }
 
   .certifications-description {
-    font-size: 14px;
+    margin-top: 8px;
+
+    font-size: 13px;
+    line-height: 1.7;
   }
 
-  .certifications-count {
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-
-    padding-left: 0;
-    border-left: 0;
+  .certifications-toolbar {
+    margin-bottom: 10px;
   }
 
-  .certifications-count strong {
-    font-size: 34px;
+  .certifications-arrow {
+    width: 38px;
+    height: 38px;
   }
 
-  .certifications-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+  .certifications-track {
+    --certification-gap: 12px;
+
+    padding-bottom: 10px;
+  }
+
+  .certification-slide {
+    flex-basis: 86%;
   }
 
   .certification-card {
-    min-height: 220px;
-    padding: 14px;
+    min-height: 245px;
+
+    padding: 16px;
+
     gap: 12px;
   }
 
   .certification-card-content h3 {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .certification-logo {
@@ -550,83 +844,68 @@
   .certificate-dialog-content {
     padding: 16px;
   }
-}
 
-@media (max-width: 360px) {
-  .certifications-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* REDUCED MOTION */
-
-@media (prefers-reduced-motion: reduce) {
-  .certification-card,
-  .certifications-toggle {
-    transition: none;
-  }
-
-  .certification-card:hover {
-    transform: none;
+  .certificate-dialog-header {
+    gap: 12px;
+    margin-bottom: 16px;
   }
 }
 
 
 /* =========================================
-   CERTIFICATIONS RESPONSIVE REFINEMENTS
+   SMALL MOBILE
 ========================================= */
 
-.certifications-section {
-  padding: 76px 0;
-}
-
-.certifications-grid {
-  display: grid;
-  gap: 16px;
-}
-
-.certifications-grid > * {
-  min-width: 0;
-  height: 100%;
-}
-
-/* Desktop */
-
-@media (min-width: 1100px) {
-  .certifications-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-/* Tablet and small laptops */
-
-@media (min-width: 641px) and (max-width: 1099px) {
-  .certifications-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .certifications-section {
-    padding: 64px 0;
-  }
-}
-
-/* Mobile */
-
-@media (max-width: 640px) {
-  .certifications-section {
-    padding: 52px 0;
-  }
-
-  .certifications-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-}
-
-/* Small mobile */
-
 @media (max-width: 359px) {
-  .certifications-grid {
-    grid-template-columns: 1fr;
+  .certification-slide {
+    flex-basis: 90%;
+  }
+
+  .certification-card {
+    padding: 14px;
+  }
+
+  .certifications-intro h2 {
+    font-size: 30px;
+  }
+}
+
+
+/* =========================================
+   TOUCH DEVICES
+========================================= */
+
+@media (pointer: coarse) {
+  .certifications-track {
+    cursor: auto;
+  }
+}
+
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .certifications-track {
+    scroll-behavior: auto;
+  }
+
+  .certification-card,
+  .certifications-arrow,
+  .certificate-dialog-close,
+  .certification-actions button,
+  .certification-actions a {
+    transition: none;
+  }
+
+  .certifications-track:not(.certifications-dragging)
+    .certification-card:hover {
+    transform: none;
+  }
+
+  .certifications-arrow:hover:not(:disabled),
+  .certifications-arrow:active:not(:disabled) {
+    transform: none;
   }
 }

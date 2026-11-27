@@ -137,16 +137,7 @@
 @media (max-width: 359px) {
   .hero-section .hero-container { padding-inline: 16px; }
 }
-/* Preserve expertise strip styling */
-.integrated-expertise { padding-bottom: 24px; }
-.integrated-expertise-inner { padding-top: 18px; }
-.integrated-expertise-label { margin-bottom: 14px; }
-.integrated-expertise-list { gap: 18px; }
-@media (max-width: 767px) {
-  .integrated-expertise-inner { padding-top: 20px; }
-  .integrated-expertise-label { margin-bottom: 16px; }
-  .integrated-expertise-list { gap: 16px 12px; }
-}
+
 
 /* Remove decorative lines beside the name */
 

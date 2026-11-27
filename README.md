@@ -2,7 +2,7 @@
 
 **Engineering with purpose.**
 
-A premium, responsive personal portfolio showcasing my professional experience, technical expertise, academic achievements, certifications, and selected software engineering projects.
+A premium, responsive personal portfolio showcasing my professional experience, academic achievements, certifications, and selected software engineering projects.
 
 ## About
 

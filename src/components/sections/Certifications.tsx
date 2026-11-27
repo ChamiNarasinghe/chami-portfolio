@@ -1,14 +1,22 @@
 
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent,
+  type PointerEvent,
+} from "react";
+
 import Image from "next/image";
 
 import {
+  ArrowLeft,
+  ArrowRight,
   ArrowUpRight,
   Award,
-  Plus,
-  Minus,
   X,
   Eye,
 } from "lucide-react";
@@ -23,37 +31,256 @@ import {
 import "@/app/certifications.css";
 
 export default function Certifications() {
-  const [showAll, setShowAll] = useState(false);
-
   const [selectedCertificate, setSelectedCertificate] =
     useState<Certification | null>(null);
 
+  const [canScrollLeft, setCanScrollLeft] =
+    useState(false);
+
+  const [canScrollRight, setCanScrollRight] =
+    useState(true);
+
+  const trackRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  const visibleCertifications = showAll
-    ? certifications
-    : certifications.slice(0, 4);
+  const certificateTriggerRef =
+    useRef<HTMLButtonElement>(null);
+
+  const dragRef = useRef({
+    active: false,
+    moved: false,
+    startX: 0,
+    scrollLeft: 0,
+  });
+
+  const suppressClickUntil = useRef(0);
+
+  /* =========================================
+     CAROUSEL SCROLL STATE
+  ========================================= */
+
+  const updateScroll = useCallback(() => {
+    const track = trackRef.current;
+
+    if (!track) return;
+
+    const maxScroll =
+      track.scrollWidth - track.clientWidth;
+
+    setCanScrollLeft(track.scrollLeft > 4);
+
+    setCanScrollRight(
+      track.scrollLeft < maxScroll - 4
+    );
+  }, []);
+
+  useEffect(() => {
+    const track = trackRef.current;
+
+    if (!track) return;
+
+    const frame = requestAnimationFrame(updateScroll);
+
+    const observer = new ResizeObserver(updateScroll);
+
+    observer.observe(track);
+
+    window.addEventListener("resize", updateScroll);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+
+      window.removeEventListener(
+        "resize",
+        updateScroll
+      );
+    };
+  }, [updateScroll]);
+
+  /* =========================================
+     CERTIFICATE MODAL
+  ========================================= */
 
   useEffect(() => {
     const dialog = dialogRef.current;
 
     if (!selectedCertificate || !dialog) return;
 
-    dialog.showModal();
+    if (!dialog.open) {
+      dialog.showModal();
+    }
 
-    const previousOverflow = document.body.style.overflow;
+    const previousOverflow =
+      document.body.style.overflow;
 
     document.body.style.overflow = "hidden";
 
     return () => {
-      dialog.close();
-      document.body.style.overflow = previousOverflow;
+      if (dialog.open) {
+        dialog.close();
+      }
+
+      document.body.style.overflow =
+        previousOverflow;
     };
   }, [selectedCertificate]);
 
   function closeCertificate() {
     setSelectedCertificate(null);
+
+    requestAnimationFrame(() => {
+      certificateTriggerRef.current?.focus({
+        preventScroll: true,
+      });
+    });
   }
+
+  /* =========================================
+     ARROW NAVIGATION
+  ========================================= */
+
+  function scrollCertifications(direction: number) {
+    const track = trackRef.current;
+
+    if (!track) return;
+
+    const card =
+      track.querySelector<HTMLElement>(
+        ".certification-slide"
+      );
+
+    if (!card) return;
+
+    const gap =
+      parseFloat(
+        getComputedStyle(track).columnGap
+      ) || 0;
+
+    const cardWidth =
+      card.getBoundingClientRect().width;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    track.scrollBy({
+      left: direction * (cardWidth + gap),
+      behavior: reduceMotion ? "instant" : "smooth",
+    });
+  }
+
+  /* =========================================
+     DESKTOP MOUSE DRAGGING
+  ========================================= */
+
+  function handlePointerDown(
+    event: PointerEvent<HTMLDivElement>
+  ) {
+    if (
+      event.pointerType !== "mouse" ||
+      event.button !== 0
+    ) {
+      return;
+    }
+
+    const target = event.target;
+
+    if (
+      target instanceof Element &&
+      target.closest("button, a")
+    ) {
+      return;
+    }
+
+    const track = event.currentTarget;
+
+    suppressClickUntil.current = 0;
+
+    dragRef.current = {
+      active: true,
+      moved: false,
+      startX: event.clientX,
+      scrollLeft: track.scrollLeft,
+    };
+
+    track.setPointerCapture(event.pointerId);
+  }
+
+  function handlePointerMove(
+    event: PointerEvent<HTMLDivElement>
+  ) {
+    if (!dragRef.current.active) return;
+
+    const distance =
+      event.clientX - dragRef.current.startX;
+
+    if (
+      Math.abs(distance) < 5 &&
+      !dragRef.current.moved
+    ) {
+      return;
+    }
+
+    dragRef.current.moved = true;
+
+    const track = event.currentTarget;
+
+    track.classList.add(
+      "certifications-dragging"
+    );
+
+    track.scrollLeft =
+      dragRef.current.scrollLeft - distance;
+  }
+
+  function handlePointerEnd(
+    event: PointerEvent<HTMLDivElement>
+  ) {
+    if (!dragRef.current.active) return;
+
+    const track = event.currentTarget;
+
+    const wasDragging = dragRef.current.moved;
+
+    dragRef.current.active = false;
+    dragRef.current.moved = false;
+
+    track.classList.remove(
+      "certifications-dragging"
+    );
+
+    if (wasDragging) {
+      suppressClickUntil.current =
+        performance.now() + 350;
+    }
+
+    if (track.hasPointerCapture(event.pointerId)) {
+      track.releasePointerCapture(event.pointerId);
+    }
+
+    updateScroll();
+  }
+
+  function preventClickAfterDrag(
+    event: MouseEvent<HTMLDivElement>
+  ) {
+    if (
+      event.detail === 0 ||
+      performance.now() >= suppressClickUntil.current
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    suppressClickUntil.current = 0;
+  }
+
+  /* =========================================
+     SECTION
+  ========================================= */
 
   return (
     <section
@@ -68,6 +295,9 @@ export default function Certifications() {
       />
 
       <div className="site-container certifications-container">
+
+        {/* SECTION HEADER */}
+
         <Reveal>
           <div className="certifications-header">
             <span>05 — Certifications</span>
@@ -80,6 +310,8 @@ export default function Certifications() {
             <span>A commitment to learning</span>
           </div>
         </Reveal>
+
+        {/* SECTION INTRODUCTION */}
 
         <Reveal delay={0.1}>
           <div className="certifications-intro">
@@ -100,136 +332,275 @@ export default function Certifications() {
                 emerging technologies.
               </p>
             </div>
-            </div>
+          </div>
         </Reveal>
 
-        <div className="certifications-grid">
-          {visibleCertifications.map((certification, index) => (
-            <Reveal
-              key={certification.id}
-              delay={(index % 4) * 0.08}
+        {/* CAROUSEL NAVIGATION */}
+
+        <Reveal delay={0.2}>
+          <div className="certifications-toolbar">
+            <div
+              className="certifications-navigation"
+              role="group"
+              aria-label="Certification carousel controls"
             >
-              <article className="certification-card">
-                <div className="certification-card-top">
-                  <div className="certification-logo">
-                    <Image
-                      src={certification.logo}
-                      alt={`${certification.issuer} logo`}
-                      width={56}
-                      height={56}
-                      className="certification-logo-image"
-                    />
-                  </div>
+              <button
+                type="button"
+                className="certifications-arrow"
+                aria-label="Previous certification"
+                aria-controls="certifications-track"
+                disabled={!canScrollLeft}
+                onClick={() =>
+                  scrollCertifications(-1)
+                }
+              >
+                <ArrowLeft
+                  size={19}
+                  aria-hidden="true"
+                />
+              </button>
 
-                  <Award
-                    size={19}
-                    className="certification-award"
-                    aria-hidden="true"
-                  />
-                </div>
+              <button
+                type="button"
+                className="certifications-arrow certifications-arrow-next"
+                aria-label="Next certification"
+                aria-controls="certifications-track"
+                disabled={!canScrollRight}
+                onClick={() =>
+                  scrollCertifications(1)
+                }
+              >
+                <ArrowRight
+                  size={19}
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
+          </div>
+        </Reveal>
 
-                <div className="certification-card-content">
-                  <h3>{certification.title}</h3>
+        {/* CERTIFICATIONS CAROUSEL */}
 
-                  <p className="certification-issuer">
-                    {certification.issuer}
-                  </p>
+        <div
+          ref={trackRef}
+          id="certifications-track"
+          className="certifications-track"
+          role="region"
+          aria-label="Certifications carousel"
+          tabIndex={0}
+          onScroll={updateScroll}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerEnd}
+          onPointerCancel={handlePointerEnd}
+          onLostPointerCapture={handlePointerEnd}
+          onClickCapture={preventClickAfterDrag}
+          onDragStart={(event) =>
+            event.preventDefault()
+          }
+          onKeyDown={(event) => {
+            if (
+              event.target !== event.currentTarget
+            ) {
+              return;
+            }
 
-                  <p className="certification-date">
-                    Issued {certification.issued}
-                  </p>
-                </div>
+            if (event.key === "ArrowRight") {
+              event.preventDefault();
+              scrollCertifications(1);
+            }
 
-                {certification.skills &&
-                  certification.skills.length > 0 && (
-                    <div className="certification-skills">
-                      {certification.skills.map((skill) => (
-                        <span key={skill}>{skill}</span>
-                      ))}
-                    </div>
-                  )}
+            if (event.key === "ArrowLeft") {
+              event.preventDefault();
+              scrollCertifications(-1);
+            }
 
-                <div className="certification-actions">
-                  {certification.certificate && (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setSelectedCertificate(certification)
-                      }
-                    >
-                      <Eye size={15} aria-hidden="true" />
+            if (
+              event.key === "Home" ||
+              event.key === "End"
+            ) {
+              event.preventDefault();
 
-                      View certificate
-                    </button>
-                  )}
+              const track = trackRef.current;
 
-                  {certification.credentialUrl && (
-                    <a
-                      href={certification.credentialUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Verify credential
+              if (!track) return;
 
-                      <ArrowUpRight
-                        size={15}
+              const reduceMotion = window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+              ).matches;
+
+              track.scrollTo({
+                left:
+                  event.key === "Home"
+                    ? 0
+                    : track.scrollWidth -
+                      track.clientWidth,
+                behavior: reduceMotion
+                  ? "instant"
+                  : "smooth",
+              });
+            }
+          }}
+        >
+          {certifications.map(
+            (certification, index) => (
+              <div
+                key={certification.id}
+                className="certification-slide"
+              >
+                <Reveal
+                  className="certification-reveal"
+                  delay={(index % 4) * 0.08}
+                >
+                  <article className="certification-card">
+
+                    {/* CARD LOGO */}
+
+                    <div className="certification-card-top">
+                      <div className="certification-logo">
+                        <Image
+                          src={certification.logo}
+                          alt={`${certification.issuer} logo`}
+                          width={56}
+                          height={56}
+                          draggable={false}
+                          className="certification-logo-image"
+                        />
+                      </div>
+
+                      <Award
+                        size={19}
+                        className="certification-award"
                         aria-hidden="true"
                       />
-                    </a>
-                  )}
+                    </div>
 
-                  {certification.credentialId && (
-                    <span className="certification-credential-id">
-                      ID: {certification.credentialId}
-                    </span>
-                  )}
-                </div>
-              </article>
-            </Reveal>
-          ))}
+                    {/* CARD INFORMATION */}
+
+                    <div className="certification-card-content">
+                      <h3>
+                        {certification.title}
+                      </h3>
+
+                      <p className="certification-issuer">
+                        {certification.issuer}
+                      </p>
+
+                      <p className="certification-date">
+                        Issued {certification.issued}
+                      </p>
+                    </div>
+
+                    {/* SKILL TAGS */}
+
+                    {certification.skills &&
+                      certification.skills.length > 0 && (
+                        <div className="certification-skills">
+                          {certification.skills.map(
+                            (skill) => (
+                              <span key={skill}>
+                                {skill}
+                              </span>
+                            )
+                          )}
+                        </div>
+                      )}
+
+                    {/* CARD ACTIONS */}
+
+                    {(certification.certificate ||
+                      certification.credentialUrl ||
+                      certification.credentialId) && (
+                      <div className="certification-actions">
+
+                        {certification.certificate && (
+                          <button
+                            type="button"
+                            onClick={(event) => {
+                              certificateTriggerRef.current =
+                                event.currentTarget;
+
+                              setSelectedCertificate(
+                                certification
+                              );
+                            }}
+                          >
+                            <Eye
+                              size={15}
+                              aria-hidden="true"
+                            />
+
+                            View certificate
+                          </button>
+                        )}
+
+                        {certification.credentialUrl && (
+                          <a
+                            href={
+                              certification.credentialUrl
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Verify credential
+
+                            <ArrowUpRight
+                              size={15}
+                              aria-hidden="true"
+                            />
+                          </a>
+                        )}
+
+                        {certification.credentialId && (
+                          <span className="certification-credential-id">
+                            ID:{" "}
+                            {certification.credentialId}
+                          </span>
+                        )}
+
+                      </div>
+                    )}
+
+                  </article>
+                </Reveal>
+              </div>
+            )
+          )}
         </div>
-
-        {certifications.length > 4 && (
-          <div className="certifications-footer">
-            <button
-              type="button"
-              className="certifications-toggle"
-              aria-expanded={showAll}
-              onClick={() => setShowAll((previous) => !previous)}
-            >
-              {showAll
-                ? "Show fewer credentials"
-                : `View all ${certifications.length} credentials`}
-
-              {showAll ? (
-                <Minus size={17} aria-hidden="true" />
-              ) : (
-                <Plus size={17} aria-hidden="true" />
-              )}
-            </button>
-          </div>
-        )}
       </div>
+
+      {/* CERTIFICATE PREVIEW MODAL */}
 
       {selectedCertificate && (
         <dialog
           ref={dialogRef}
           className="certificate-dialog"
           aria-labelledby="certificate-dialog-title"
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              event.preventDefault();
+              closeCertificate();
+            }
+          }}
           onCancel={(event) => {
             event.preventDefault();
             closeCertificate();
           }}
           onClick={(event) => {
-            if (event.target === event.currentTarget) {
+            if (
+              event.target === event.currentTarget
+            ) {
               closeCertificate();
             }
           }}
         >
           <div className="certificate-dialog-content">
+
             <div className="certificate-dialog-header">
               <div>
-                <p>{selectedCertificate.issuer}</p>
+                <p>
+                  {selectedCertificate.issuer}
+                </p>
 
                 <h3 id="certificate-dialog-title">
                   {selectedCertificate.title}
@@ -242,7 +613,10 @@ export default function Certifications() {
                 onClick={closeCertificate}
                 aria-label="Close certificate preview"
               >
-                <X size={23} aria-hidden="true" />
+                <X
+                  size={23}
+                  aria-hidden="true"
+                />
               </button>
             </div>
 
@@ -272,10 +646,14 @@ export default function Certifications() {
                 >
                   Open original
 
-                  <ArrowUpRight size={16} />
+                  <ArrowUpRight
+                    size={16}
+                    aria-hidden="true"
+                  />
                 </a>
               )}
             </div>
+
           </div>
         </dialog>
       )}

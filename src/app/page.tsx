@@ -3,7 +3,6 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
 import Hero from "@/components/sections/Hero";
-import ExpertiseStrip from "@/components/sections/ExpertiseStrip";
 import About from "@/components/sections/About";
 import Services from "@/components/sections/Services";
 import Experience from "@/components/sections/Experience";
@@ -18,7 +17,6 @@ export default function Home() {
 
       <main>
         <Hero />
-        <ExpertiseStrip />
         <About />
         <Services />
         <Experience />
