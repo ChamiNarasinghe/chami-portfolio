@@ -477,25 +477,38 @@
 }
 
 .experience-status-dot {
+  position: relative;
+  isolation: isolate;
+
   width: 6px;
   height: 6px;
 
   border-radius: 50%;
 
   background: var(--exp-gold);
+}
 
+.experience-status-dot::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  border-radius: inherit;
+  background: var(--exp-gold);
+
+  content: "";
   animation: experience-pulse 3s infinite;
 }
 
 @keyframes experience-pulse {
   0%, 100% {
-    box-shadow:
-      0 0 0 0 rgba(241, 225, 148, 0.3);
+    opacity: 0.3;
+    transform: scale(1);
   }
 
   50% {
-    box-shadow:
-      0 0 0 5px rgba(241, 225, 148, 0);
+    opacity: 0;
+    transform: scale(2.67);
   }
 }
 
@@ -765,8 +778,10 @@
    ========================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  .experience-status-dot {
+  .experience-status-dot::after {
     animation: none;
+    opacity: 0;
+    transform: scale(1);
   }
 
   .experience-section *,

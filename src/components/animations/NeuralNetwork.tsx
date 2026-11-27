@@ -562,7 +562,7 @@ export default function NeuralNetwork() {
     }
 
     function refreshCanvasBounds() {
-      if (!canvas) return;
+      if (!canvas || !isVisible || isDisposed) return;
 
       canvasBounds =
         canvas.getBoundingClientRect();
