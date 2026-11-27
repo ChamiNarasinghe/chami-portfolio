@@ -15,6 +15,7 @@ import "./hero-refinement.css";
 import "./about.css";
 import "./experience.css";
 import "./projects.css";
+import { Analytics } from "@vercel/analytics/next";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -177,6 +178,7 @@ export default function RootLayout({
         />
 
         {children}
+        <Analytics />
       </body>
     </html>
   );
