@@ -575,25 +575,24 @@ body.mobile-nav-open footer {
   visibility: hidden;
   pointer-events: none;
 
-  transform: translateY(-10px) scale(0.98);
-  transform-origin: top center;
+  transform: translateY(-12px);
 
   transition:
-    opacity 250ms ease,
+    opacity 250ms ease-out,
     visibility 250ms ease,
-    transform 350ms var(--glass-ease);
+    transform 250ms ease-out;
 }
 
 .glass-navbar[data-theme="light"] .mobile-navigation {
   background: rgba(248, 246, 240, 0.98);
 }
 
-.glass-navbar.glass-menu-open .mobile-navigation {
+.glass-navbar .mobile-navigation--visible {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
 /* =========================================
